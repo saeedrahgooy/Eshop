@@ -1,0 +1,23 @@
+﻿@model Numbers
+
+    <form asp-controller="Math" asp-action="MakeAdd"  method="post">
+        <table class="table table-bordered table-striped table-hover table-sm">
+            <tr>
+                <td>FirstNumber</td>
+                <td>
+                    <input type="text" asp-for="FirstNumber" class="form-control"/>
+                </td>
+            </tr>
+            <tr>
+                <td>SecondNumber</td>
+                <td>
+                    <input type="text" asp-for="SecondNumber" class="form-control"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="text-center">
+                    <input type="submit" name="name" value="Add"  class="btn btn-primary"/>
+                </td>
+            </tr>
+        </table>
+    </form>

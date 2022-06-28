@@ -1,0 +1,12 @@
+﻿@model Eshop.Models.Student
+@{
+    ViewData["Title"] = "Home Page";
+    Student stu = new Student { FirstName = "saaed", LastName = "rahgooy" };
+}
+
+@*<a asp-controller="Math" asp-action="Add" class="btn btn-primary" >Add</a>
+    <a asp-controller="Math" asp-action="Multi" class="btn btn-info" >Multiply</a>*@
+@*@Html.ActionLink("Sub", "Sub", "Math", null, new { @class = "btn btn-danger" })*@
+
+<a asp-controller="Supplier" asp-action="Index" class="btn btn-primary">Supplier Management</a>
+@Html.CustomActionLink("Add", "Add", "Supplier", true, "myModal", stu,  new { @class = "btn btn-danger" })  

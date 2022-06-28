@@ -1,0 +1,31 @@
+﻿@model Eshop.Models.Numbers
+
+@{
+    ViewData["Title"] = "Multi";
+}
+
+<h1>Multiply</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Multi" method="post" asp-controller="Math">
+            <div class="form-group">
+                <label asp-for="FirstNumber" class="control-label"></label>
+                <input asp-for="FirstNumber" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="SecondNumber" class="control-label"></label>
+                <input asp-for="SecondNumber" class="form-control" />
+            </div>
+            <div class="form-group">
+                @if (Model != null)
+                {
+                    <h1>@Model.Result</h1>
+                }
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Multiply" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+

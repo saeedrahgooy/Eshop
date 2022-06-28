@@ -1,0 +1,160 @@
+﻿@model DomainModel.DTOS.Supplier.SupplierSearchModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<script>
+    $(document).on("click", ".del", function () {
+                    if (confirm("Are you sure to delete Supplier?")) {
+                     var id = $(this).attr("data-id");
+                     var sendingUrl = '@Url.Action("Delete","Supplier")'
+                    var sendingData = "SupplierID=" + id;
+                    $.post(sendingUrl, sendingData, function (operationResult) {
+                        if (operationResult.success == true) {
+                            $.get('@Url.Action("List","Supplier")', null, function (grd)
+                            {
+                                $("#dvContent").html(grd);
+                            });
+                        }
+                        else {
+                            alert(operationResult.message)
+                        }
+                    })
+            }
+
+    });
+    @*$(document).ready(function ()
+    {
+        $(".del").click(function () {
+            if (confirm("Are you sure to delete Supplier?")) {
+                 var id = $(this).attr("data-id");
+                 var sendingUrl = '@Url.Action("Delete","Supplier")'
+                var sendingData = "SupplierID=" + id;
+                $.post(sendingUrl, sendingData, function (operationResult) {
+                    if (operationResult.success == true) {
+                        $.get('@Url.Action("List","Supplier")', null, function (grd)
+                        {
+                            $("#dvContent").html(grd);
+                        });
+                    }
+                    else {
+                        alert(operationResult.message)
+                    }
+                })
+            }
+        })
+        $("#btnAddNew").click(function () {
+            $("#myModal").modal("show");
+        })
+    })*@
+    $(document).on("click", "[data-ajax= 'true']", function ()
+    {
+        var dvTarget = $(this).attr("data-target-id");
+        var sendingUrl = $(this).attr("data-action");
+        $.get(sendingUrl, null, function (data) {
+            $(dvTarget).html(data);
+            $.validator.unobtrusive.parse("#frmSupplier");
+            $("#myModal").modal("show");
+        })
+    })
+
+    $(document).on("click", "#btnAddNewSupplier", function (e) {
+        //e.preventDefault();
+        var sendingData = $("#frmSupplier").serialize();
+        var sendingUrl = '@Url.Action("AddNew","Supplier")';
+        $.post(sendingUrl, sendingData, function (operationResult) {
+            if (operationResult.success == true) {
+                $.get('@Url.Action("List","Supplier")', null, function (grd) {
+                    $("#dvContent").html(grd);
+                    $("#myModal").modal("hide");
+                });
+            }
+            else {
+                alert(operationResult.message)
+            }
+        })
+    });
+    $(document).on("click", ".edit", function () {
+        var id = $(this).attr("data-id");
+        var sendingUrl = '@Url.Action("Update","Supplier")'
+        var sendingData = "SupplierID=" + id;
+        $.get(sendingUrl, sendingData, function (data) {
+            $("#dvAddEdit").html(data);
+            $.validator.unobtrusive.parse("#frmSupplier");
+            $("#myModal").modal("show");
+        });
+    });
+     $(document).on("click", "#btnUpdateSupplier", function (e) {
+        //e.preventDefault();
+        var sendingData = $("#frmSupplier").serialize();
+        var sendingUrl = '@Url.Action("Update","Supplier")';
+        $.post(sendingUrl, sendingData, function (operationResult) {
+            if (operationResult.success == true) {
+                $.get('@Url.Action("List","Supplier")', null, function (grd) {
+                    $("#dvContent").html(grd);
+                    $("#myModal").modal("hide");
+                });
+            }
+            else {
+                alert(operationResult.message)
+            }
+        })
+    });
+</script>
+
+<h4>Supplier Search </h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SupplierName" class="control-label"></label>
+                <input asp-for="SupplierName" class="form-control" />
+
+            </div>
+            <div class="form-group">
+                <label asp-for="Tel" class="control-label"></label>
+                <input asp-for="Tel" class="form-control" />
+
+            </div>
+            <div class="form-group">
+                <label asp-for="Mobile" class="control-label"></label>
+                <input asp-for="Mobile" class="form-control" />
+
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-primary" />
+                @*<a asp-controller="Supplier" asp-action="AddNew" class="btn btn-success">Add New</a>*@
+                <span id="btnAddNew" data-target-id="#dvAddEdit"
+                      data-ajax="true" data-action="@Url.Action("AddNew","Supplier")" class="btn btn-success">Add New Supplier</span>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="dvContent">
+    @await Component.InvokeAsync("SupplierSearchList", Model)
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="dvAddEdit">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
